@@ -35,8 +35,11 @@
 -(void)initializeWithCrashReporting:(id)apiKey
 {
 	ENSURE_SINGLE_ARG(apiKey, NSString);
-	[Flurry setCrashReportingEnabled:YES];
-	[Flurry startSession:apiKey];
+    FlurrySessionBuilder* sessionBuilder = [[[[FlurrySessionBuilder new] withLogLevel:FlurryLogLevelAll]
+                                             withCrashReporting:YES]
+                                             withSessionContinueSeconds:10];
+    
+    [Flurry startSession:apiKey withSessionBuilder:sessionBuilder];
 }
 
 # pragma mark Public Properties
@@ -62,7 +65,8 @@
 -(void)setDebugLogEnabled:(id)value
 {
     ENSURE_SINGLE_ARG(value, NSNumber);
-	[Flurry setDebugLogEnabled:[TiUtils boolValue:value]];
+    //[Flurry setDebugLogEnabled:[TiUtils boolValue:value]];
+    NSLog(@"[ERROR] Ti.Flurry: The property `secureTransportEnabled` was removed in 2.0.0. SSL is now used automatically by the native SDK.");
 }
 
 -(void)setEventLoggingEnabled:(id)value
